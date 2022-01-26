@@ -20,6 +20,10 @@ class VendasProdutos {
   @JoinColumn({ name: 'venda_id' })
   venda: Venda;
 
+  @ManyToOne(() => Produto, produto => produto.venda_produtos)
+  @JoinColumn({ name: 'produto_id' })
+  produto: Produto;
+
   @Column()
   venda_id: string;
 
@@ -41,5 +45,4 @@ class VendasProdutos {
   @UpdateDateColumn()
   updated_at: Date;
 }
-
 export default VendasProdutos;

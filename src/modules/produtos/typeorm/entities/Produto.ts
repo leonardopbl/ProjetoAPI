@@ -1,7 +1,10 @@
+//import VendasProdutos from 'src/modules/venda/typeorm/entities/VendasProdutos';
+import VendasProdutos from 'c:/Users/leona/ProjetoAPI/src/modules/venda/typeorm/entities/VendasProdutos';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -10,6 +13,9 @@ import {
 class Produto {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToMany(() => VendasProdutos, venda_produtos => venda_produtos.produto)
+  venda_produtos: VendasProdutos[];
 
   @Column()
   nome: string;
@@ -44,5 +50,4 @@ class Produto {
   @UpdateDateColumn()
   updated_at: Date;
 }
-
 export default Produto;

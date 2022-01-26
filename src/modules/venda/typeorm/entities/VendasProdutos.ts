@@ -31,9 +31,6 @@ class VendasProdutos {
   produto_id: string;
 
   @Column('decimal')
-  desconto: number;
-
-  @Column('decimal')
   preco: number;
 
   @Column('int')

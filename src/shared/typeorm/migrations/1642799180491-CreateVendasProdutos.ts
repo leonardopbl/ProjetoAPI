@@ -24,12 +24,6 @@ export class CreateVendasProdutos1642799180491 implements MigrationInterface {
             type: 'int',
           },
           {
-            name: 'desconto',
-            type: 'decimal',
-            precision: 10,
-            scale: 2,
-          },
-          {
             name: 'created_at',
             type: 'timestamp with time zone',
             default: 'now()',

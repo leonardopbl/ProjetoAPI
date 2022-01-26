@@ -18,6 +18,12 @@ export class CreateVendas1642797458735 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'valor_total',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
+          },
+          {
             name: 'created_at',
             type: 'timestamp with time zone',
             default: 'now()',

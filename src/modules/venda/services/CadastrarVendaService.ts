@@ -12,6 +12,7 @@ interface IProduto {
 interface IRequest {
   cliente_id: string;
   pagamento: string;
+  valor_total: number;
   produtos: IProduto[];
 }
 
@@ -20,6 +21,7 @@ class CadastrarVendaService {
     cliente_id,
     pagamento,
     produtos,
+    valor_total,
   }: IRequest): Promise<Venda> {
     const vendasRepository = getCustomRepository(VendasRepository);
     const clientesRepository = getCustomRepository(ClientesRepository);
@@ -31,27 +33,27 @@ class CadastrarVendaService {
       throw new AppError('Cliente não cadastrado.');
     }
 
-    const existProdutos = await produtosRepository.findAllByIds(produtos);
+    const existsProdutos = await produtosRepository.findAllByIds(produtos);
 
-    if (!existProdutos.length) {
-      throw new AppError('Produtos não cadastrado.');
+    if (!existsProdutos.length) {
+      throw new AppError('Produto(s) não cadastrado.');
     }
 
-    const existProdutosIds = existProdutos.map(produto => produto.id);
+    const existsProdutosIds = existsProdutos.map(produto => produto.id);
 
     const checkInexistenteProdutos = produtos.filter(
-      produto => !existProdutosIds.includes(produto.id),
+      produto => !existsProdutosIds.includes(produto.id),
     );
 
     if (checkInexistenteProdutos.length) {
       throw new AppError(
-        `Produtos: ${checkInexistenteProdutos[0].id} não cadastrado.`,
+        `Produto(s): ${checkInexistenteProdutos[0].id} não cadastrado(s).`,
       );
     }
 
     const quantidadeAvailable = produtos.filter(
       produto =>
-        existProdutos.filter(p => p.id === produto.id)[0].quantidade <
+        existsProdutos.filter(p => p.id === produto.id)[0].quantidade <
         produto.quantidade,
     );
 
@@ -64,12 +66,13 @@ class CadastrarVendaService {
     const serializedProdutos = produtos.map(produto => ({
       produto_id: produto.id,
       quantidade: produto.quantidade,
-      preco: existProdutos.filter(p => p.id === produto.id)[0].preco,
+      preco: existsProdutos.filter(p => p.id === produto.id)[0].preco,
     }));
 
     const venda = await vendasRepository.createVenda({
       cliente: clienteExist,
       pagamento: pagamento,
+      valor_total: valor_total,
       produtos: serializedProdutos,
     });
 
@@ -78,7 +81,7 @@ class CadastrarVendaService {
     const updatedProdutoQuantidade = venda_produtos.map(produto => ({
       id: produto.produto_id,
       quantidade:
-        existProdutos.filter(p => p.id === produto.produto_id)[0].quantidade -
+        existsProdutos.filter(p => p.id === produto.produto_id)[0].quantidade -
         produto.quantidade,
     }));
 

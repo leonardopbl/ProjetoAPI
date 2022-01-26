@@ -5,6 +5,7 @@ import VendasController from '../controllers/VendasController';
 const vendasRouter = Router();
 const vendasController = new VendasController();
 
+vendasRouter.get('/', vendasController.index);
 vendasRouter.get(
   '/:id',
   celebrate({
@@ -21,6 +22,7 @@ vendasRouter.post(
     [Segments.BODY]: {
       cliente_id: Joi.string().uuid().required(),
       pagamento: Joi.string().required(),
+      valor_total: Joi.number().precision(2).required(),
       produtos: Joi.required(),
     },
   }),

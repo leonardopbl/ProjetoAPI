@@ -29,6 +29,9 @@ class Venda {
   @Column()
   pagamento: string;
 
+  @Column('decimal')
+  valor_total: number;
+
   @CreateDateColumn()
   created_at: Date;
 

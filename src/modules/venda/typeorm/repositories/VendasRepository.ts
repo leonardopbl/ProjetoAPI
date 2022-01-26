@@ -11,9 +11,9 @@ interface IProduto {
 interface IRequest {
   cliente: Cliente;
   pagamento: string;
+  valor_total: number;
   produtos: IProduto[];
 }
-
 @EntityRepository(Venda)
 export class VendasRepository extends Repository<Venda> {
   public async findById(id: string): Promise<Venda | undefined> {
@@ -27,12 +27,14 @@ export class VendasRepository extends Repository<Venda> {
   public async createVenda({
     cliente,
     pagamento,
+    valor_total,
     produtos,
   }: IRequest): Promise<Venda> {
     const venda = this.create({
       cliente,
       venda_produtos: produtos,
       pagamento,
+      valor_total,
     });
     await this.save(venda);
 

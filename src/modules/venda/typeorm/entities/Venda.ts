@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import Cliente from 'src/modules/clientes/typeorm/entities/Cliente';
+import Cliente from '@modules/clientes/typeorm/entities/Cliente';
 import VendasProdutos from './VendasProdutos';
 
 @Entity('vendas')
@@ -16,7 +16,7 @@ class Venda {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Cliente)
+  @ManyToOne(() => Cliente, cliente => cliente.vendas)
   @JoinColumn({ name: 'cliente_id' })
   cliente: Cliente;
 

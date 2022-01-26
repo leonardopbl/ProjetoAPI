@@ -1,5 +1,5 @@
 //import VendasProdutos from 'src/modules/venda/typeorm/entities/VendasProdutos';
-import VendasProdutos from 'c:/Users/leona/ProjetoAPI/src/modules/venda/typeorm/entities/VendasProdutos';
+import VendasProdutos from '@modules/venda/typeorm/entities/VendasProdutos';
 import {
   Column,
   CreateDateColumn,

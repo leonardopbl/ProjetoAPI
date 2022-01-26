@@ -1,7 +1,10 @@
+import Venda from '@modules/venda/typeorm/entities/Venda';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -10,6 +13,9 @@ import {
 class Cliente {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToMany(() => Venda, vendas => vendas.cliente)
+  vendas: Venda[];
 
   @Column()
   nome: string;

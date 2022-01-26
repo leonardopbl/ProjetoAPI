@@ -10,6 +10,7 @@ interface IProduto {
 
 interface IRequest {
   cliente: Cliente;
+  pagamento: string;
   produtos: IProduto[];
 }
 
@@ -23,10 +24,15 @@ export class VendasRepository extends Repository<Venda> {
     return venda;
   }
 
-  public async createVenda({ cliente, produtos }: IRequest): Promise<Venda> {
+  public async createVenda({
+    cliente,
+    pagamento,
+    produtos,
+  }: IRequest): Promise<Venda> {
     const venda = this.create({
       cliente,
       venda_produtos: produtos,
+      pagamento,
     });
     await this.save(venda);
 

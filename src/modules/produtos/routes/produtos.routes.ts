@@ -28,7 +28,6 @@ produtosRouter.post(
       precodecusto: Joi.number().precision(2).required(),
       precodeatacado: Joi.number().precision(2).required(),
       quantidade: Joi.number().required(),
-      estoque: Joi.number().required(),
       categoria: Joi.string().required(),
     },
   }),
@@ -46,7 +45,6 @@ produtosRouter.put(
       precodecusto: Joi.number().precision(2).required(),
       precodeatacado: Joi.number().precision(2).required(),
       quantidade: Joi.number().required(),
-      estoque: Joi.number().required(),
       categoria: Joi.string().required(),
     },
     [Segments.PARAMS]: {

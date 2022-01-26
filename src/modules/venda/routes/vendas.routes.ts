@@ -20,6 +20,7 @@ vendasRouter.post(
   celebrate({
     [Segments.BODY]: {
       cliente_id: Joi.string().uuid().required(),
+      pagamento: Joi.string().required(),
       produtos: Joi.required(),
     },
   }),

@@ -19,7 +19,6 @@ export default class UsuariosController {
     response: Response,
   ): Promise<Response> {
     const { nome, email, password } = request.body;
-
     const cadastrarUsuario = new CadastrarUsuarioService();
 
     const usuario = await cadastrarUsuario.execute({

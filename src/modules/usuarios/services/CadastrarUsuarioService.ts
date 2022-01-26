@@ -1,19 +1,19 @@
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import Usuario from '../typeorm/entities/Usuario';
-import UsuariosRepository from '../typeorm/repositories/UsuariosRepository';
 import { hash } from 'bcryptjs';
+import UsuariosRepository from '@modules/usuarios/typeorm/repositories/UsuariosRepository';
+import Usuario from '../typeorm/entities/Usuario';
 
 interface IRequest {
   nome: string;
   email: string;
   password: string;
 }
-
 class CadastrarUsuarioService {
   public async execute({ nome, email, password }: IRequest): Promise<Usuario> {
     const usuariosRepository = getCustomRepository(UsuariosRepository);
     const emailExists = await usuariosRepository.findByEmail(email);
+
     if (emailExists) {
       throw new AppError('Endereço de email já cadastrado.');
     }
@@ -26,7 +26,6 @@ class CadastrarUsuarioService {
     });
 
     await usuariosRepository.save(usuario);
-    console.log(usuario);
     return usuario;
   }
 }

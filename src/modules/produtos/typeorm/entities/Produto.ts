@@ -32,9 +32,6 @@ class Produto {
   @Column('decimal')
   precodeatacado: number;
 
-  @Column('int')
-  estoque: number;
-
   @Column()
   codigodebarras: string;
 

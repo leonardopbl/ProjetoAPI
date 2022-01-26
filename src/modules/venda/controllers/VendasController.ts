@@ -17,12 +17,13 @@ export default class VendasController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { cliente_id, produtos } = request.body;
+    const { cliente_id, pagamento, produtos } = request.body;
 
     const cadastarVenda = new CadastrarVendaService();
 
     const venda = await cadastarVenda.execute({
       cliente_id,
+      pagamento,
       produtos,
     });
 

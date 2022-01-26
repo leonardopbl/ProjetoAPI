@@ -9,7 +9,6 @@ interface IRequest {
   precodecusto: number;
   precodeatacado: number;
   quantidade: number;
-  estoque: number;
   codigodebarras: string;
   ncm: string;
   categoria: string;
@@ -22,7 +21,6 @@ class CadastrarProdutoService {
     precodecusto,
     precodeatacado,
     quantidade,
-    estoque,
     codigodebarras,
     ncm,
     categoria,
@@ -30,7 +28,6 @@ class CadastrarProdutoService {
     const produtosRepository = getCustomRepository(ProdutoRepository);
     const produtoExists = await produtosRepository.findByName(nome);
     //CRIAR UMA VALIDAÇÃO DE NCM ANTES DE CADASTRAR
-
     if (produtoExists) {
       throw new AppError('Já existe um produto com esse nome.');
     }
@@ -41,12 +38,10 @@ class CadastrarProdutoService {
       precodecusto,
       precodeatacado,
       quantidade,
-      estoque,
       codigodebarras,
       ncm,
       categoria,
     });
-
     await produtosRepository.save(produto);
 
     return produto;

@@ -10,7 +10,6 @@ interface IRequest {
   precodecusto: number;
   precodeatacado: number;
   quantidade: number;
-  estoque: number;
   codigodebarras: string;
   ncm: string;
   categoria: string;
@@ -23,7 +22,6 @@ class AtualizarProdutoService {
     precodecusto,
     precodeatacado,
     quantidade,
-    estoque,
     codigodebarras,
     ncm,
     categoria,
@@ -47,7 +45,6 @@ class AtualizarProdutoService {
     produto.precodecusto = precodecusto;
     produto.precodeatacado = precodeatacado;
     produto.quantidade = quantidade;
-    produto.estoque = estoque;
     produto.codigodebarras = codigodebarras;
     produto.ncm = ncm;
     produto.categoria = categoria;

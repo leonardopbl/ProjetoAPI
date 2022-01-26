@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -24,6 +25,9 @@ class Venda {
     cascade: true,
   })
   venda_produtos: VendasProdutos[];
+
+  @Column()
+  pagamento: string;
 
   @CreateDateColumn()
   created_at: Date;

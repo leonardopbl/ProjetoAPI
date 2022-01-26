@@ -11,11 +11,16 @@ interface IProduto {
 }
 interface IRequest {
   cliente_id: string;
+  pagamento: string;
   produtos: IProduto[];
 }
 
 class CadastrarVendaService {
-  public async execute({ cliente_id, produtos }: IRequest): Promise<Venda> {
+  public async execute({
+    cliente_id,
+    pagamento,
+    produtos,
+  }: IRequest): Promise<Venda> {
     const vendasRepository = getCustomRepository(VendasRepository);
     const clientesRepository = getCustomRepository(ClientesRepository);
     const produtosRepository = getCustomRepository(ProdutoRepository);
@@ -64,6 +69,7 @@ class CadastrarVendaService {
 
     const venda = await vendasRepository.createVenda({
       cliente: clienteExist,
+      pagamento: pagamento,
       produtos: serializedProdutos,
     });
 

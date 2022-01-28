@@ -39,7 +39,7 @@ class SendForgotPasswordEmailService {
         file: forgotPasswordTemplate,
         variaveis: {
           name: usuario.nome,
-          link: `http://localhost:3333/reset_password?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`,
           //          link2: `http://localhost:3000/`,
         },
       },

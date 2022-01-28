@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import AtualizarUsuarioService from '../services/AtualizarPerfilUsuarioService';
 import ExibirUsuarioService from '../services/ExibirUsuarioService';
-
+import { instanceToInstance } from 'class-transformer';
 export default class PerfilUsuarioController {
   public async exibir(request: Request, response: Response): Promise<Response> {
     const exibirPerfilUsuario = new ExibirUsuarioService();
@@ -9,7 +9,7 @@ export default class PerfilUsuarioController {
 
     const usuario = await exibirPerfilUsuario.execute({ usuario_id });
 
-    return response.json(usuario);
+    return response.json(instanceToInstance(usuario));
   }
   public async atualizar(
     request: Request,
@@ -27,6 +27,6 @@ export default class PerfilUsuarioController {
       password,
       old_password,
     });
-    return response.json(usuario);
+    return response.json(instanceToInstance(usuario));
   }
 }

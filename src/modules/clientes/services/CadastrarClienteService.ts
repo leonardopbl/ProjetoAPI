@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Cliente from '../typeorm/entities/Cliente';
@@ -36,6 +37,8 @@ class CadastrarClienteService {
       throw new AppError('CPF já cadastrado.');
     }
 
+    const redisCache = new RedisCache();
+
     const cliente = clientesRepository.create({
       nome,
       email,
@@ -48,6 +51,8 @@ class CadastrarClienteService {
       logradouro,
       complemento,
     });
+
+    await redisCache.invalidate('projeto-api-CLIENTE-LIST');
 
     await clientesRepository.save(cliente);
 

@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import ClienteJuridico from '../typeorm/entities/ClienteJuridico';
@@ -43,6 +44,10 @@ class AtualizarClienteJuridicoService {
     if (clienteNovoCnpj && cnpj !== cliente.cnpj) {
       throw new AppError('Já existe um usuário com esse CNPJ.');
     }
+
+    const redisCache = new RedisCache();
+
+    await redisCache.invalidate('projeto-api-CLIENTEJURIDICO-LIST');
 
     cliente.razaosocial = razaosocial;
     cliente.email = email;

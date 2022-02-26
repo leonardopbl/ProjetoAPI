@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import { getCustomRepository } from 'typeorm';
 import Cliente from '../typeorm/entities/Cliente';
 import ClientesRepository from '../typeorm/repositories/ClientesRepository';
@@ -16,9 +17,20 @@ class ListarClienteService {
   public async execute(): Promise<IPaginateCliente> {
     const clienteRepository = getCustomRepository(ClientesRepository);
 
-    const clientes = await clienteRepository.createQueryBuilder().paginate();
+    const clientesPag = await clienteRepository.createQueryBuilder().paginate();
 
-    return clientes as IPaginateCliente;
+    const redisCache = new RedisCache();
+
+    let clientes = await redisCache.recover<Cliente[]>(
+      'projeto-api-CLIENTE-LIST',
+    );
+
+    if (!clientes) {
+      clientes = await clienteRepository.find();
+
+      await redisCache.save('projeto-api-CLIENTE-LIST', clientes);
+    }
+    return clientesPag as IPaginateCliente;
   }
 }
 

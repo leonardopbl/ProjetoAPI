@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Produto from '../typeorm/entities/Produto';
@@ -32,6 +33,8 @@ class CadastrarProdutoService {
       throw new AppError('Já existe um produto com esse nome.');
     }
 
+    const redisCache = new RedisCache();
+
     const produto = produtosRepository.create({
       nome,
       preco,
@@ -42,6 +45,9 @@ class CadastrarProdutoService {
       ncm,
       categoria,
     });
+
+    await redisCache.invalidate('projeto-api-PRODUTO-LIST');
+
     await produtosRepository.save(produto);
 
     return produto;

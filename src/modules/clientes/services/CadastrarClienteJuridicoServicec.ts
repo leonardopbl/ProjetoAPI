@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import ClienteJuridico from '../typeorm/entities/ClienteJuridico';
@@ -36,6 +37,8 @@ class CadastrarClienteJuridicoService {
       throw new AppError('CNPJ já cadastrado.');
     }
 
+    const redisCache = new RedisCache();
+
     const cliente = clientesRepository.create({
       razaosocial,
       email,
@@ -48,6 +51,8 @@ class CadastrarClienteJuridicoService {
       logradouro,
       complemento,
     });
+
+    await redisCache.invalidate('projeto-api-CLIENTEJURIDICO-LIST');
 
     await clientesRepository.save(cliente);
 

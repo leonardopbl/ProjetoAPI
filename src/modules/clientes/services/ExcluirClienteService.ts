@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import ClientesRepository from '../typeorm/repositories/ClientesRepository';
@@ -14,6 +15,10 @@ class ExcluirClienteService {
     if (!cliente) {
       throw new AppError('Cliente não encontrado.');
     }
+
+    const redisCache = new RedisCache();
+
+    await redisCache.invalidate('projeto-api-CLIENTE-LIST');
 
     await clientesRepository.remove(cliente);
   }

@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Cliente from '../typeorm/entities/Cliente';
@@ -43,6 +44,10 @@ class AtualizarClienteService {
     if (clienteNovoCpf && cpf !== cliente.cpf) {
       throw new AppError('Já existe um usuário com esse CPF.');
     }
+
+    const redisCache = new RedisCache();
+
+    await redisCache.invalidate('projeto-api-CLIENTE-LIST');
 
     cliente.nome = nome;
     cliente.email = email;

@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Produto from '../typeorm/entities/Produto';
@@ -39,6 +40,10 @@ class AtualizarProdutoService {
     if (nomeProdutoExists && nome !== produto.nome) {
       throw new AppError('Já existe um produto com esse nome.');
     }
+
+    const redisCache = new RedisCache();
+
+    await redisCache.invalidate('projeto-api-PRODUTO-LIST');
 
     produto.nome = nome;
     produto.preco = preco;

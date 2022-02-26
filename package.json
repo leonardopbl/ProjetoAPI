@@ -7,7 +7,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -45,6 +45,7 @@
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
     "pg": "^8.7.1",
+    "rate-limiter-flexible": "^2.3.6",
     "redis": "^4.0.2",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.41",
